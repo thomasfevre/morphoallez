@@ -102,4 +102,4 @@ contracts:
   include_events:
   - CreateMetaMorpho
 global:
-  etherscan_api_key: 2XPWWZSD2247SQTAU4RS64HWGAP52AR52B
+  etherscan_api_key: ${ETHERSCAN_API_KEY}
