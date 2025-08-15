@@ -39,12 +39,14 @@ Several technical challenges were encountered and addressed during this project:
 
 *Solution & Trade-off*:
 
-I switched from Infura to a Tenderly RPC, which offers a more generous free tier for requests.
+I switched from Infura to a Tenderly RPC, which I use in often along with Infura for my side-projects, so I did not have to create another account. 
 
-To manage the scope of the historical sync, I implemented a specific block window in rindexer.yaml to index only the last 30 days of data. This was a trade-off: it reduced the immediate data volume but significantly improved the stability and speed of the initial indexing process. For a production system, a more robust RPC plan would be necessary for a full historical sync.
+To manage the scope of the historical sync, I added a specific block window in rindexer.yaml to index only the last 30 days of data. This was a trade-off: it reduced the immediate data volume but significantly improved the stability and speed of the initial indexing process.
+But if it works for this window, it can work for a bigger tiimeframe, and I did it to practice the tools also.
+For a production system, a more robust RPC plan would be necessary for a full historical sync.
 
 ## Rindexer Installation on Windows
-*Issue*: The standard installation command (curl ... | bash) provided in the official documentation failed on my Windows environment, even within a bash shell like Git Bash.
+*Issue*: The standard installation command (curl -L https://rindexer.xyz/install.sh | bash) provided in the official documentation failed on my Windows environment, even within a bash shell like Git Bash.
 
 *Solution*: I opted for a manual installation by:
 
@@ -152,5 +154,5 @@ It's crucial to ensure that no events were missed during the indexing process. T
 
 By combining proactive schema optimization with rigorous post-load validation, this process ensures that the resulting dataset is correct, complete, and stored in an efficient, query-friendly format.
 
-# Key Ressources 
+# Key Ressources Consumption
 --> See /screenshots/readme.md
