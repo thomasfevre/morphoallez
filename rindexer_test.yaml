@@ -2,10 +2,11 @@ name: morpho_blue_etl
 description: Indexes key Morpho contracts for analytics.
 project_type: no-code
 config: {}
+
 networks:
 - name: ethereum
   chain_id: 1
-  rpc: ${ENV_ETH_RPC_URL}
+  rpc: ${ETH_RPC_URL}
   reth: null
 storage:
   postgres:
@@ -13,11 +14,12 @@ storage:
 native_transfers:
   enabled: false
 contracts:
-- name: Morpho_Blue
+- name: MorphoBlue
   details:
   - network: ethereum
-    address: 0xbbbbbbbbbb9cc5e90e3b3af64bdaf62c37eeffcb
-  abi: ./abis/Morpho_Blue.abi.json
+    address: '0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb'
+    start_block: '18883124'
+  abi: auto
   include_events:
     # Core user actions & value flow
     - Supply
@@ -36,8 +38,9 @@ contracts:
 - name: PublicAllocator
   details:
   - network: ethereum
-    address: 0xfd32fa2ca22c76dd6e550706ad913fc6ce91c75d
-  abi: ./abis/PublicAllocator.abi.json
+    address: '0xfd32fA2ca22c76dD6E550706Ad913FC6CE91c75D'
+    start_block: '19375099'
+  abi: auto
   include_events:
     # Core reallocation events
     - PublicWithdrawal
@@ -48,11 +51,13 @@ contracts:
     - TransferFee
     - SetFlowCaps
 
+# This is the Steakhouse Financial WETH Vault, a good example of an active vault.
 - name: MetaMorpho_Steakhouse_WETH
   details:
   - network: ethereum
-    address: 0xbeef050ecd6a16c4e7bffbb52ebba7846c4b8cd4
-  abi: ./abis/MetaMorpho_Steakhouse_WETH.abi.json
+    address: '0xBEEf050ecd6a16c4e7bfFbB52Ebba7846C4b8cD4'
+    start_block: '18841517'
+  abi: auto
   include_events:
     # User actions
     - Deposit
@@ -66,11 +71,13 @@ contracts:
     - SetFee
     - Skim
 
+# This is the Steakhouse Financial USDC Vault.
 - name: MetaMorpho_Steakhouse_USDC
   details:
   - network: ethereum
-    address: 0xbeef01735c132ada46aa9aa4c54623caa92a64cb
-  abi: ./abis/MetaMorpho_Steakhouse_USDC.abi.json
+    address: '0xBEEF01735c132Ada46AA9aA4c54623cAA92A64CB'
+    start_block: '18901925'
+  abi: auto
   include_events:
     # User actions 
     - Deposit
@@ -84,12 +91,14 @@ contracts:
     - SetFee
     - Skim
 
-- name: MetaMorphoV1_1Factory
+- name: MetaMorphoFactory
   details:
   - network: ethereum
-    address: 0x1897a8997241c1cd4bd0698647e4eb7213535c24
-  abi: ./abis/MetaMorphoV1_1Factory.abi.json
+    address: '0x1897a8997241c1cd4bd0698647e4eb7213535c24'
+    start_block: '21439510'
+  abi: auto
   include_events:
   - CreateMetaMorpho
-global:
-  etherscan_api_key: 2XPWWZSD2247SQTAU4RS64HWGAP52AR52B
+
+  global: 
+    etherscan_api_key: ${ETHERSCAN_API_KEY}
