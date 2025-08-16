@@ -4,8 +4,9 @@ This document contains useful queries for analyzing Steakhouse USDC and WETH vau
 
 ## 1. Daily Volume Trends
 
+### USDC Vault Daily Activity
 ```sql
--- Daily deposit and withdrawal volumes by vault
+-- Daily deposit and withdrawal volumes for USDC vault
 SELECT 
     transaction_date,
     vault_asset,
@@ -16,7 +17,25 @@ SELECT
     withdrawal_count,
     unique_users
 FROM analytics.agg_steakhouse_daily_vault_summary
-ORDER BY transaction_date DESC, vault_asset;
+WHERE vault_asset = 'USDC'
+ORDER BY transaction_date DESC;
+```
+
+### WETH Vault Daily Activity
+```sql
+-- Daily deposit and withdrawal volumes for WETH vault
+SELECT 
+    transaction_date,
+    vault_asset,
+    ROUND(total_deposits_assets) AS daily_deposits,
+    ROUND(total_withdrawals_assets) AS daily_withdrawals,
+    ROUND(net_assets_flow) AS daily_net_flow,
+    deposit_count,
+    withdrawal_count,
+    unique_users
+FROM analytics.agg_steakhouse_daily_vault_summary
+WHERE vault_asset = 'WETH'
+ORDER BY transaction_date DESC;
 ```
 
 ## 2. Vault Growth Comparison
