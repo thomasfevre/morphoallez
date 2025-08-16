@@ -82,21 +82,6 @@ WHERE transaction_date >= today() - INTERVAL 30 DAY
 GROUP BY vault_asset;
 ```
 
-## 5. User Behavior Patterns
-
-```sql
--- Distribution of user types and activity levels
-SELECT 
-    vault_asset,
-    user_type,
-    activity_level,
-    SUM(total_deposited_assets) AS total_deposits,
-    AVG(total_deposited_assets) AS avg_deposits_per_user,
-    AVG(total_transactions) AS avg_transactions_per_user
-FROM analytics.agg_steakhouse_user_activity
-GROUP BY vault_asset, user_type, activity_level
-ORDER BY vault_asset, user_count DESC;
-```
 
 ## 6. Transaction Size Analysis
 
