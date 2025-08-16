@@ -17,8 +17,8 @@ contracts:
   details:
   - network: ethereum
     address: 0xbbbbbbbbbb9cc5e90e3b3af64bdaf62c37eeffcb
-    start_block: '22896095'
-    end_block: '23146025'
+    start_block: '21439510'
+    end_block: '22448537'
   abi: ./abis/Morpho_Blue.abi.json
   include_events:
     # Core user actions & value flow
@@ -39,8 +39,8 @@ contracts:
   details:
   - network: ethereum
     address: 0xfd32fa2ca22c76dd6e550706ad913fc6ce91c75d
-    start_block: '22896095'
-    end_block: '23146025'
+    start_block: '21439510'
+    end_block: '22448537'
   abi: ./abis/PublicAllocator.abi.json
   include_events:
     # Core reallocation events
@@ -56,8 +56,8 @@ contracts:
   details:
   - network: ethereum
     address: 0xbeef050ecd6a16c4e7bffbb52ebba7846c4b8cd4
-    start_block: '22896095'
-    end_block: '23146025'
+    start_block: '21439510'
+    end_block: '22448537'
   abi: ./abis/MetaMorpho_Steakhouse_WETH.abi.json
   include_events:
     # User actions
@@ -76,8 +76,8 @@ contracts:
   details:
   - network: ethereum
     address: 0xbeef01735c132ada46aa9aa4c54623caa92a64cb
-    start_block: '22896095'
-    end_block: '23146025'
+    start_block: '21439510'
+    end_block: '22448537'
   abi: ./abis/MetaMorpho_Steakhouse_USDC.abi.json
   include_events:
     # User actions 
@@ -96,8 +96,8 @@ contracts:
   details:
   - network: ethereum
     address: 0x1897a8997241c1cd4bd0698647e4eb7213535c24
-    start_block: '22896095'
-    end_block: '23146025'
+    start_block: '21439510'
+    end_block: '22448537'
   abi: ./abis/MetaMorphoV1_1Factory.abi.json
   include_events:
   - CreateMetaMorpho

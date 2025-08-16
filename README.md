@@ -36,12 +36,17 @@ Several technical challenges were encountered and addressed during this project:
 
 ## RPC Rate Limiting
 *Issue*: During the initial setup, using a standard Infura RPC endpoint resulted in frequent "Too Many Requests" (HTTP 429) errors. This was caused by rindexer's high volume of eth_getLogs and eth_getBlockByNumber calls during the historical sync, as no end_block was initially specified.
+Also, the free tier of Neon allows only 512mb max size, so I had to make a decision for that too.
 
 *Solution & Trade-off*:
 
 I switched from Infura to a Tenderly RPC, which I use in often along with Infura for my side-projects, so I did not have to create another account. 
 
-To manage the scope of the historical sync, I added a specific block window in rindexer.yaml to index only the last 30 days of data. This was a trade-off: it reduced the immediate data volume but significantly improved the stability and speed of the initial indexing process.
+To manage the scope of the historical sync, I added a specific block window in rindexer.yaml to index only the first 100 days of data --> starting when the factory_v1_1 was created; this way, I thought I could get the best assets vault creation records just after that.
+
+Total time ~ 5-7 min
+Historical indexing time taken: 1.8135277s 
+
 But if it works for this window, it can work for a bigger tiimeframe, and I did it to practice the tools also.
 For a production system, a more robust RPC plan would be necessary for a full historical sync.
 
