@@ -1,0 +1,145 @@
+version: 2
+
+models:
+  - name: stg_steakhouse_usdc__deposits
+    description: "Cleaned and standardized USDC vault deposit events"
+    columns:
+      - name: deposit_id
+        description: "Unique identifier for the deposit event"
+        tests:
+          - unique
+          - not_null
+      - name: deposited_assets_normalized
+        description: "Deposited USDC amount in human-readable format (6 decimals normalized)"
+        tests:
+          - not_null
+      - name: vault_asset
+        description: "Asset type of the vault (USDC)"
+        tests:
+          - accepted_values:
+              arguments:
+                values: ['USDC']
+
+  - name: stg_steakhouse_usdc__withdrawals
+    description: "Cleaned and standardized USDC vault withdrawal events"
+    columns:
+      - name: withdrawal_id
+        description: "Unique identifier for the withdrawal event"
+        tests:
+          - unique
+          - not_null
+      - name: withdrawn_assets_normalized
+        description: "Withdrawn USDC amount in human-readable format (6 decimals normalized)"
+        tests:
+          - not_null
+
+  - name: stg_steakhouse_weth__deposits
+    description: "Cleaned and standardized WETH vault deposit events"
+    columns:
+      - name: deposit_id
+        description: "Unique identifier for the deposit event"
+        tests:
+          - unique
+          - not_null
+      - name: deposited_assets_normalized
+        description: "Deposited WETH amount in human-readable format (18 decimals normalized)"
+        tests:
+          - not_null
+      - name: vault_asset
+        description: "Asset type of the vault (WETH)"
+        tests:
+          - accepted_values:
+              arguments:
+                values: ['WETH']
+
+  - name: stg_steakhouse_weth__withdrawals
+    description: "Cleaned and standardized WETH vault withdrawal events"
+    columns:
+      - name: withdrawal_id
+        description: "Unique identifier for the withdrawal event"
+        tests:
+          - unique
+          - not_null
+      - name: withdrawn_assets_normalized
+        description: "Withdrawn WETH amount in human-readable format (18 decimals normalized)"
+        tests:
+          - not_null
+
+  - name: fct_steakhouse_vault_flows
+    description: "Comprehensive fact table of all Steakhouse vault deposit and withdrawal flows"
+    columns:
+      - name: event_id
+        description: "Unique identifier for each flow event"
+        tests:
+          - unique
+          - not_null
+      - name: vault_asset
+        description: "Asset type (USDC or WETH)"
+        tests:
+          - accepted_values:
+              arguments:
+                values: ['USDC', 'WETH']
+      - name: transaction_type
+        description: "Type of transaction"
+        tests:
+          - accepted_values:
+              arguments:
+                values: ['deposit', 'withdrawal']
+      - name: flow_direction
+        description: "Direction of the flow"
+        tests:
+          - accepted_values:
+              arguments:
+                values: ['inflow', 'outflow']
+      - name: net_assets_flow
+        description: "Net asset flow (positive for deposits, negative for withdrawals)"
+      - name: assets_normalized
+        description: "Asset amount in human-readable format"
+        tests:
+          - not_null
+
+  - name: agg_steakhouse_daily_vault_summary
+    description: "Daily aggregated summary of vault activity by asset type"
+    columns:
+      - name: transaction_date
+        description: "Date of transactions"
+        tests:
+          - not_null
+      - name: vault_asset
+        description: "Asset type (USDC or WETH)"
+        tests:
+          - accepted_values:
+              arguments:
+                values: ['USDC', 'WETH']
+      - name: total_transactions
+        description: "Total number of transactions for the day"
+        tests:
+          - not_null
+      - name: net_assets_flow
+        description: "Net asset flow for the day (deposits minus withdrawals)"
+
+  - name: agg_steakhouse_user_activity
+    description: "User-level aggregated activity across vaults"
+    columns:
+      - name: user_address
+        description: "Ethereum address of the user"
+        tests:
+          - not_null
+      - name: vault_asset
+        description: "Asset type (USDC or WETH)"
+        tests:
+          - accepted_values:
+              arguments:
+                values: ['USDC', 'WETH']
+      - name: user_type
+        description: "Classification based on net position"
+        tests:
+          - accepted_values:
+              arguments:
+                values: ['Net Depositor', 'Net Withdrawer', 'Balanced']
+      - name: activity_level
+        description: "User activity level classification"
+        tests:
+          - accepted_values:
+              arguments:
+                values: ['High Activity', 'Medium Activity', 'Low Activity']

@@ -1,0 +1,32 @@
+# models/sources.yml
+
+version: 2
+
+sources:
+  - name: morpho_raw # A name for the group of sources
+    # This should match the schema name of your raw data in ClickHouse
+    schema: default 
+    tables:
+      - name: morpho_blue_etl_meta_morpho__steakhouse__usdc_accrue_interest
+      - name: morpho_blue_etl_meta_morpho__steakhouse__usdc_deposit
+      - name: morpho_blue_etl_meta_morpho__steakhouse__usdc_reallocate_supply
+      - name: morpho_blue_etl_meta_morpho__steakhouse__usdc_reallocate_withdraw
+      - name: morpho_blue_etl_meta_morpho__steakhouse__usdc_withdraw
+      - name: morpho_blue_etl_meta_morpho__steakhouse__weth_accrue_interest
+      - name: morpho_blue_etl_meta_morpho__steakhouse__weth_deposit
+      - name: morpho_blue_etl_meta_morpho__steakhouse__weth_reallocate_supply
+      - name: morpho_blue_etl_meta_morpho__steakhouse__weth_reallocate_withdraw
+      - name: morpho_blue_etl_meta_morpho__steakhouse__weth_withdraw
+      - name: morpho_blue_etl_meta_morpho_v1_1_factory_create_meta_morpho
+      - name: morpho_blue_etl_morpho__blue_accrue_interest
+      - name: morpho_blue_etl_morpho__blue_borrow
+      - name: morpho_blue_etl_morpho__blue_create_market
+      - name: morpho_blue_etl_morpho__blue_flash_loan
+      - name: morpho_blue_etl_morpho__blue_liquidate
+      - name: morpho_blue_etl_morpho__blue_repay
+      - name: morpho_blue_etl_morpho__blue_supply
+      - name: morpho_blue_etl_morpho__blue_supply_collateral
+      - name: morpho_blue_etl_morpho__blue_withdraw
+      - name: morpho_blue_etl_morpho__blue_withdraw_collateral
+      - name: morpho_blue_etl_public_allocator_public_reallocate_to
+      - name: morpho_blue_etl_public_allocator_public_withdrawal
