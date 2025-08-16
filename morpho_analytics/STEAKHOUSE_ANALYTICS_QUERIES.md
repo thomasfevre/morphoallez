@@ -9,9 +9,9 @@ This document contains useful queries for analyzing Steakhouse USDC and WETH vau
 SELECT 
     transaction_date,
     vault_asset,
-    total_deposits_assets AS daily_deposits,
-    total_withdrawals_assets AS daily_withdrawals,
-    net_assets_flow AS daily_net_flow,
+    ROUND(total_deposits_assets) AS daily_deposits,
+    ROUND(total_withdrawals_assets) AS daily_withdrawals,
+    ROUND(net_assets_flow) AS daily_net_flow,
     deposit_count,
     withdrawal_count,
     unique_users
@@ -33,12 +33,12 @@ WITH daily_flows AS (
 SELECT 
     transaction_date,
     vault_asset,
-    net_assets_flow,
-    SUM(net_assets_flow) OVER (
+    ROUND(net_assets_flow) AS daily_net_flow,
+    ROUND(SUM(net_assets_flow) OVER (
         PARTITION BY vault_asset 
         ORDER BY transaction_date 
         ROWS UNBOUNDED PRECEDING
-    ) AS cumulative_net_flow
+    )) AS cumulative_net_flow
 FROM daily_flows
 ORDER BY transaction_date DESC, vault_asset;
 ```
@@ -46,13 +46,13 @@ ORDER BY transaction_date DESC, vault_asset;
 ## 3. Top Users Analysis
 
 ```sql
--- Top 20 users by total deposited volume across both vaults
+-- Top 10 users by total deposited volume across both vaults
 SELECT 
     user_address,
     vault_asset,
-    total_deposited_assets,
-    total_withdrawn_assets,
-    net_assets_position,
+    ROUND(total_deposited_assets) AS total_deposited_assets,
+    ROUND(total_withdrawn_assets) AS total_withdrawn_assets,
+    ROUND(net_assets_position) AS net_assets_position,
     total_transactions,
     user_type,
     activity_level,
@@ -60,7 +60,7 @@ SELECT
     last_transaction_date
 FROM analytics.agg_steakhouse_user_activity
 ORDER BY total_deposited_assets DESC
-LIMIT 20;
+LIMIT 10;
 ```
 
 ## 4. Vault Utilization Metrics
@@ -72,11 +72,11 @@ SELECT
     COUNT(*) AS active_days,
     SUM(total_transactions) AS total_transactions,
     SUM(unique_users) AS total_unique_users,
-    SUM(total_deposits_assets) AS total_volume_deposited,
-    SUM(total_withdrawals_assets) AS total_volume_withdrawn,
-    SUM(net_assets_flow) AS net_flow_30d,
-    AVG(total_deposits_assets) AS avg_daily_deposits,
-    AVG(total_withdrawals_assets) AS avg_daily_withdrawals
+    ROUND(SUM(total_deposits_assets)) AS total_volume_deposited,
+    ROUND(SUM(total_withdrawals_assets)) AS total_volume_withdrawn,
+    ROUND(SUM(net_assets_flow)) AS net_flow_30d,
+    ROUND(AVG(total_deposits_assets)) AS avg_daily_deposits,
+    ROUND(AVG(total_withdrawals_assets)) AS avg_daily_withdrawals
 FROM analytics.agg_steakhouse_daily_vault_summary
 WHERE transaction_date >= today() - INTERVAL 30 DAY
 GROUP BY vault_asset;
@@ -91,12 +91,12 @@ SELECT
     vault_asset,
     transaction_type,
     COUNT(*) AS transaction_count,
-    MIN(assets_normalized) AS min_size,
-    quantileExact(0.25)(assets_normalized) AS p25_size,
-    quantileExact(0.5)(assets_normalized) AS median_size,
-    quantileExact(0.75)(assets_normalized) AS p75_size,
-    MAX(assets_normalized) AS max_size,
-    AVG(assets_normalized) AS avg_size
+    ROUND(MIN(assets_normalized)) AS min_size,
+    ROUND(quantileExact(0.25)(assets_normalized)) AS p25_size,
+    ROUND(quantileExact(0.5)(assets_normalized)) AS median_size,
+    ROUND(quantileExact(0.75)(assets_normalized)) AS p75_size,
+    ROUND(MAX(assets_normalized)) AS max_size,
+    ROUND(AVG(assets_normalized)) AS avg_size
 FROM analytics.fct_steakhouse_vault_flows
 GROUP BY vault_asset, transaction_type
 ORDER BY vault_asset, transaction_type;
@@ -111,12 +111,12 @@ SELECT
     vault_asset,
     transaction_type,
     actor_address,
-    assets_normalized,
+    ROUND(assets_normalized) AS assets_normalized,
     tx_hash,
-    CASE vault_asset
+    ROUND(CASE vault_asset
         WHEN 'USDC' THEN assets_normalized  -- Already in USD for USDC
         WHEN 'WETH' THEN assets_normalized * 3000  -- Approximate ETH price
-    END AS estimated_usd_value
+    END) AS estimated_usd_value
 FROM analytics.fct_steakhouse_vault_flows
 WHERE 
     transaction_date >= today() - INTERVAL 7 DAY
