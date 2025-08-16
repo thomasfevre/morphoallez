@@ -3,7 +3,11 @@ Author: Thomas
 Date: August 15, 2025
 
 # Project Overview
-This document details the setup and execution of a data pipeline to index Morpho smart contract events and transfer them into a ClickHouse data warehouse. The project involved configuring the rindexer tool to capture on-chain data into a Neon PostgreSQL database, followed by an ETL process to move and transform this data into a ClickHouse instance for analytical purposes.
+This document details the setup and execution of a comprehensive data pipeline to index Morpho smart contract events and build analytics for DeFi vault monitoring. The project involved configuring the rindexer tool to capture on-chain data into a Neon PostgreSQL database, followed by an ETL process to move and transform this data into a ClickHouse instance, and finally building a dbt analytics layer focused on Steakhouse vault deposit and withdrawal evolution.
+
+![Vault Volumes Analysis](screenshots/visualization-vault_volumes_NEW.png)
+
+*Daily volume trends showing net flows USDC and WETH Steakhouse vaults*
 
 # Rindexer Configuration
 The core of the data extraction was handled by rindexer. The complete configuration file, rindexer.yaml, is included in the root of this repository. It is configured to index the following contracts on the Ethereum mainnet:
@@ -72,7 +76,50 @@ Adding the ~/.rindexer/bin directory to my system's PATH environment variable to
 ETL Tooling
 For the ETL process of moving data from Neon (Postgres) to ClickHouse, I used the embedded tool in ClickHouse.
 
-Data Transformation and Column Analysis
+# Analytics Layer with dbt
+
+After successfully loading the raw event data into ClickHouse, I built a comprehensive analytics layer using **dbt (Data Build Tool)** to transform the raw blockchain events into meaningful business metrics focused on the Steakhouse USDC and WETH vault activity.
+
+## dbt Project Structure
+
+The analytics project follows dbt best practices with a clear layered architecture:
+
+### **Staging Layer** (`models/staging/`)
+- `stg_steakhouse_usdc__deposits.sql` - Cleaned USDC vault deposit events with proper decimal normalization (6 decimals)
+- `stg_steakhouse_usdc__withdrawals.sql` - Cleaned USDC vault withdrawal events  
+- `stg_steakhouse_weth__deposits.sql` - Cleaned WETH vault deposit events with proper decimal normalization (18 decimals)
+- `stg_steakhouse_weth__withdrawals.sql` - Cleaned WETH vault withdrawal events
+
+### **Mart Layer** (`models/marts/`)
+- `fct_steakhouse_vault_flows.sql` - Comprehensive fact table combining all vault deposit and withdrawal flows
+- `agg_steakhouse_daily_vault_summary.sql` - Daily aggregated vault activity metrics
+- `agg_steakhouse_user_activity.sql` - User-level behavioral analytics and classifications
+
+
+
+## Vault Analytics Dashboard
+
+The analytics enable comprehensive monitoring of the Steakhouse vault evolution:
+
+![Vault Volumes Analysis](screenshots/visualization-vault_volumes_NEW.png)
+
+*Daily volume trends showing net flows USDC and WETH Steakhouse vaults*
+  
+(More images in /screenshots)
+
+## Sample Analytics Queries
+
+The project includes ready-to-use SQL queries for:
+1. **Daily Volume Trends** - Track deposit/withdrawal patterns over time
+2. **Vault Growth Comparison** - Cumulative net flows and growth rates  
+3. **Top Users Analysis** - Identify whale users and their activity patterns
+4. **Vault Utilization Metrics** - 30-day activity summaries and averages
+5. **Transaction Size Analysis** - Statistical distribution of transaction amounts
+6. **Recent Large Transactions** - Monitor significant moves (>$10k equivalent)
+
+All volume metrics are rounded to whole numbers for clean dashboard presentation.
+
+## Data Transformation and Column Analysis
 I selected only the tables that were not empty and relevant to a financial analysis to me :  
   
 "morpho_blue_etl_meta_morpho__steakhouse__usdc_accrue_interest"
