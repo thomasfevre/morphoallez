@@ -9,8 +9,44 @@ models:
         tests:
           - unique
           - not_null
+      - name: vault_address
+        description: "Contract address of the USDC vault"
+        tests:
+          - not_null
+      - name: depositor_address
+        description: "Address that initiated the deposit transaction"
+        tests:
+          - not_null
+      - name: beneficiary_address
+        description: "Address that will own the minted shares"
+        tests:
+          - not_null
+      - name: deposited_assets_raw
+        description: "Deposited USDC amount in raw format (with 6 decimals)"
+        tests:
+          - not_null
+      - name: deposited_shares_raw
+        description: "Vault shares minted in raw format (with 6 decimals)"
+        tests:
+          - not_null
       - name: deposited_assets_normalized
         description: "Deposited USDC amount in human-readable format (6 decimals normalized)"
+        tests:
+          - not_null
+      - name: deposited_shares_normalized
+        description: "Vault shares minted in human-readable format (6 decimals normalized)"
+        tests:
+          - not_null
+      - name: tx_hash
+        description: "Transaction hash"
+        tests:
+          - not_null
+      - name: block_number
+        description: "Ethereum block number"
+        tests:
+          - not_null
+      - name: approximate_timestamp
+        description: "Calculated timestamp from block number"
         tests:
           - not_null
       - name: vault_asset
@@ -19,6 +55,12 @@ models:
           - accepted_values:
               arguments:
                 values: ['USDC']
+      - name: transaction_type
+        description: "Type of transaction (deposit)"
+        tests:
+          - accepted_values:
+              arguments:
+                values: ['deposit']
 
   - name: stg_steakhouse_usdc__withdrawals
     description: "Cleaned and standardized USDC vault withdrawal events"
@@ -28,10 +70,62 @@ models:
         tests:
           - unique
           - not_null
+      - name: vault_address
+        description: "Contract address of the USDC vault"
+        tests:
+          - not_null
+      - name: withdrawer_address
+        description: "Address that initiated the withdrawal transaction"
+        tests:
+          - not_null
+      - name: recipient_address
+        description: "Address that receives the withdrawn assets"
+        tests:
+          - not_null
+      - name: owner_address
+        description: "Address that owned the burned shares"
+        tests:
+          - not_null
+      - name: withdrawn_assets_raw
+        description: "Withdrawn USDC amount in raw format (with 6 decimals)"
+        tests:
+          - not_null
+      - name: withdrawn_shares_raw
+        description: "Vault shares burned in raw format (with 6 decimals)"
+        tests:
+          - not_null
       - name: withdrawn_assets_normalized
         description: "Withdrawn USDC amount in human-readable format (6 decimals normalized)"
         tests:
           - not_null
+      - name: withdrawn_shares_normalized
+        description: "Vault shares burned in human-readable format (6 decimals normalized)"
+        tests:
+          - not_null
+      - name: tx_hash
+        description: "Transaction hash"
+        tests:
+          - not_null
+      - name: block_number
+        description: "Ethereum block number"
+        tests:
+          - not_null
+      - name: approximate_timestamp
+        description: "Calculated timestamp from block number"
+        tests:
+          - not_null
+      - name: vault_asset
+        description: "Asset type of the vault (USDC)"
+        tests:
+          - accepted_values:
+              arguments:
+                values: ['USDC']
+      - name: transaction_type
+        description: "Type of transaction (withdrawal)"
+        tests:
+          - accepted_values:
+              arguments:
+                values: ['withdrawal']
 
   - name: stg_steakhouse_weth__deposits
     description: "Cleaned and standardized WETH vault deposit events"
@@ -41,10 +135,58 @@ models:
         tests:
           - unique
           - not_null
+      - name: vault_address
+        description: "Contract address of the WETH vault"
+        tests:
+          - not_null
+      - name: depositor_address
+        description: "Address that initiated the deposit transaction"
+        tests:
+          - not_null
+      - name: recipient_address
+        description: "Address that receives the minted shares"
+        tests:
+          - not_null
+      - name: deposited_assets_raw
+        description: "Deposited WETH amount in raw format (with 18 decimals)"
+        tests:
+          - not_null
+      - name: minted_shares_raw
+        description: "Vault shares minted in raw format (with 18 decimals)"
+        tests:
+          - not_null
       - name: deposited_assets_normalized
         description: "Deposited WETH amount in human-readable format (18 decimals normalized)"
         tests:
           - not_null
+      - name: minted_shares_normalized
+        description: "Vault shares minted in human-readable format (18 decimals normalized)"
+        tests:
+          - not_null
+      - name: tx_hash
+        description: "Transaction hash"
+        tests:
+          - not_null
+      - name: block_number
+        description: "Ethereum block number"
+        tests:
+          - not_null
+      - name: approximate_timestamp
+        description: "Calculated timestamp from block number"
+        tests:
+          - not_null
+      - name: vault_asset
+        description: "Asset type of the vault (WETH)"
+        tests:
+          - accepted_values:
+              arguments:
+                values: ['WETH']
+      - name: transaction_type
+        description: "Type of transaction (deposit)"
+        tests:
+          - accepted_values:
+              arguments:
+                values: ['deposit']
       - name: vault_asset
         description: "Asset type of the vault (WETH)"
         tests:
@@ -60,10 +202,62 @@ models:
         tests:
           - unique
           - not_null
+      - name: vault_address
+        description: "Contract address of the WETH vault"
+        tests:
+          - not_null
+      - name: withdrawer_address
+        description: "Address that initiated the withdrawal transaction"
+        tests:
+          - not_null
+      - name: recipient_address
+        description: "Address that receives the withdrawn assets"
+        tests:
+          - not_null
+      - name: owner_address
+        description: "Address that owned the burned shares"
+        tests:
+          - not_null
+      - name: withdrawn_assets_raw
+        description: "Withdrawn WETH amount in raw format (with 18 decimals)"
+        tests:
+          - not_null
+      - name: withdrawn_shares_raw
+        description: "Vault shares burned in raw format (with 18 decimals)"
+        tests:
+          - not_null
       - name: withdrawn_assets_normalized
         description: "Withdrawn WETH amount in human-readable format (18 decimals normalized)"
         tests:
           - not_null
+      - name: withdrawn_shares_normalized
+        description: "Vault shares burned in human-readable format (18 decimals normalized)"
+        tests:
+          - not_null
+      - name: tx_hash
+        description: "Transaction hash"
+        tests:
+          - not_null
+      - name: block_number
+        description: "Ethereum block number"
+        tests:
+          - not_null
+      - name: approximate_timestamp
+        description: "Calculated timestamp from block number"
+        tests:
+          - not_null
+      - name: vault_asset
+        description: "Asset type of the vault (WETH)"
+        tests:
+          - accepted_values:
+              arguments:
+                values: ['WETH']
+      - name: transaction_type
+        description: "Type of transaction (withdrawal)"
+        tests:
+          - accepted_values:
+              arguments:
+                values: ['withdrawal']
 
   - name: fct_steakhouse_vault_flows
     description: "Comprehensive fact table of all Steakhouse vault deposit and withdrawal flows"
