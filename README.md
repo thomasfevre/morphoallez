@@ -31,7 +31,7 @@ WETH (Wrapped Ether): Represents the primary volatile, crypto-native collateral.
 
 USDC (USD Coin): Represents the primary stablecoin used for lending and borrowing.
 
-I fetched contract ABIs with the index add contract command along with the etherscan API KEY.
+I fetched contract ABIs with the rindexer add contract command along with the etherscan API KEY.
 
 
 
