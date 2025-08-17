@@ -3,7 +3,7 @@ Author: Thomas
 Date: August 15, 2025
 
 # Project Overview
-This document details the setup and execution of a comprehensive data pipeline to index Morpho smart contract events and build analytics for DeFi vault monitoring. The project involved configuring the rindexer tool to capture on-chain data into a Neon PostgreSQL database, followed by an ETL process to move and transform this data into a ClickHouse instance, and finally building a dbt analytics layer focused on Steakhouse vault deposit and withdrawal evolution.
+This document details the setup and execution of a comprehensive data pipeline to index Morpho smart contract events and build analytics for DeFi vault monitoring. The project involved configuring the rindexer tool to capture on-chain data into a Neon PostgreSQL database, followed by an ETL process to move and transform this data into a ClickHouse instance, and finally building a DBT analytics layer focused on Steakhouse vault deposit and withdrawal evolution.
 
 ![Vault Volumes Analysis](screenshots/net_flows.png)
 
@@ -31,7 +31,7 @@ WETH (Wrapped Ether): Represents the primary volatile, crypto-native collateral.
 
 USDC (USD Coin): Represents the primary stablecoin used for lending and borrowing.
 
-I fetched contract ABIs with the index add contract command along with the etherscan API KEY.
+I fetched contract ABIs with the rindexer add contract command along with the etherscan API KEY.
 
 
 
@@ -44,14 +44,14 @@ Also, the free tier of Neon allows only 512mb max size, so I had to make a decis
 
 *Solution & Trade-off*:
 
-I switched from Infura to a Tenderly RPC, which I use in often along with Infura for my side-projects, so I did not have to create another account. 
+I switched from Infura to a Tenderly RPC, which I often use along Infura for my side-projects, so I did not have to create another account. 
 
-To manage the scope of the historical sync, I added a specific block window in rindexer.yaml to index only the first 100 days of data --> starting when the factory_v1_1 was created; this way, I thought I could get the best assets vault creation records just after that.
+To manage the scope of the historical sync, I added a specific block window in rindexer.yaml to index ~140 days of data --> starting when the factory_v1_1 was created; 
 
-Total time ~ 5-7 min
+Total time ~ 5-7 min. 
 Historical indexing time taken: 1.8135277s 
 
-But if it works for this window, it can work for a bigger tiimeframe, and I did it to practice the tools also.
+But if it works for this window, it can work for a bigger timeframe, and I did it to practice the tools also.
 For a production system, a more robust RPC plan would be necessary for a full historical sync.
 
 ## Rindexer Installation on Windows
