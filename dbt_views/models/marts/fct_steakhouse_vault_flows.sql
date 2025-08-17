@@ -1,7 +1,12 @@
 -- models/marts/fct_steakhouse_vault_flows.sql
 -- Fact table combining all Steakhouse vault deposit and withdrawal flows
 
-{{ config(materialized='table') }}
+{{ config(
+    materialized='table',
+    engine='MergeTree()',
+    order_by='(transaction_date, vault_asset, block_number)',
+    partition_by='toYYYYMM(transaction_date)'
+) }}
 
 WITH usdc_deposits AS (
     SELECT

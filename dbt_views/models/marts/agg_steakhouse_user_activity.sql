@@ -4,11 +4,11 @@
 {{ config(
     materialized='table',
     engine='MergeTree()',
-    order_by='(vault_asset, user_address)'
+    order_by='(vault_asset, actor_address)'
 ) }}
 
 SELECT
-    actor_address AS user_address,
+    actor_address ,
     toLowCardinality(vault_asset) AS vault_asset,
     vault_address,
     

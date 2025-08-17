@@ -34,8 +34,9 @@ models:
       +docs:
         node_color: "lightblue"
     
-    # Mart models - materialized as tables for performance  
+    # Mart models - materialized as tables for performance with ClickHouse optimizations
     marts:
       +materialized: table
+      +engine: MergeTree()
       +docs:
         node_color: "lightgreen"

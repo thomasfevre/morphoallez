@@ -1,11 +1,17 @@
 -- models/marts/agg_steakhouse_daily_vault_summary.sql
 -- Daily aggregated summary of Steakhouse vault activity
 
-{{ config(materialized='table') }}
+{{ config(
+    materialized='incremental',
+    unique_key=['transaction_date', 'vault_asset'],
+    engine='ReplacingMergeTree()',
+    order_by='(transaction_date, vault_asset)',
+    partition_by='toYYYYMM(transaction_date)'
+) }}
 
 SELECT
     transaction_date,
-    vault_asset,
+    toLowCardinality(vault_asset) AS vault_asset,
     vault_address,
     
     -- Transaction counts
@@ -39,6 +45,9 @@ SELECT
     MAX(block_number) AS max_block_number
 
 FROM {{ ref('fct_steakhouse_vault_flows') }}
+{% if is_incremental() %}
+WHERE transaction_date > (SELECT MAX(transaction_date) FROM {{ this }})
+{% endif %}
 GROUP BY 
     transaction_date,
     vault_asset,

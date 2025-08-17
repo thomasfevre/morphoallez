@@ -22,8 +22,8 @@ SELECT
     -- Using reference: Block 21439512 = 2024-12-19 22:20:23 UTC (1734648023)
     -- Ethereum blocks average ~12 seconds since the merge
     toDateTime(1734648023 + (block_number - 21439512) * 12) AS approximate_timestamp,
-    'WETH' AS vault_asset,
-    'deposit' AS transaction_type
+    toLowCardinality('WETH') AS vault_asset,
+    toLowCardinality('deposit') AS transaction_type
 FROM
     {{ source('morpho_raw', 'morpho_blue_etl_meta_morpho__steakhouse__weth_deposit') }}
 WHERE 

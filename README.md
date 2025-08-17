@@ -206,5 +206,7 @@ It's crucial to ensure that no events were missed during the indexing process. T
 
 By combining proactive schema optimization with rigorous post-load validation, this process ensures that the resulting dataset is correct, complete, and stored in an efficient, query-friendly format.
 
-# Key Ressources Consumption
+# For Key Ressources Consumption &
+# DBT Views Optimzations
+
 --> See /screenshots/readme.md
