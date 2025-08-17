@@ -48,10 +48,10 @@ I switched from Infura to a Tenderly RPC, which I often use along Infura for my 
 
 To manage the scope of the historical sync, I added a specific block window in rindexer.yaml to index ~140 days of data --> starting when the factory_v1_1 was created; 
 
-Total time ~ 5-7 min
+Total time ~ 5-7 min. 
 Historical indexing time taken: 1.8135277s 
 
-But if it works for this window, it can work for a bigger tiimeframe, and I did it to practice the tools also.
+But if it works for this window, it can work for a bigger timeframe, and I did it to practice the tools also.
 For a production system, a more robust RPC plan would be necessary for a full historical sync.
 
 ## Rindexer Installation on Windows
