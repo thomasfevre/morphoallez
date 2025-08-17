@@ -3,7 +3,7 @@ Author: Thomas
 Date: August 15, 2025
 
 # Project Overview
-This document details the setup and execution of a comprehensive data pipeline to index Morpho smart contract events and build analytics for DeFi vault monitoring. The project involved configuring the rindexer tool to capture on-chain data into a Neon PostgreSQL database, followed by an ETL process to move and transform this data into a ClickHouse instance, and finally building a dbt analytics layer focused on Steakhouse vault deposit and withdrawal evolution.
+This document details the setup and execution of a comprehensive data pipeline to index Morpho smart contract events and build analytics for DeFi vault monitoring. The project involved configuring the rindexer tool to capture on-chain data into a Neon PostgreSQL database, followed by an ETL process to move and transform this data into a ClickHouse instance, and finally building a DBT analytics layer focused on Steakhouse vault deposit and withdrawal evolution.
 
 ![Vault Volumes Analysis](screenshots/net_flows.png)
 
