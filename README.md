@@ -44,7 +44,7 @@ Also, the free tier of Neon allows only 512mb max size, so I had to make a decis
 
 *Solution & Trade-off*:
 
-I switched from Infura to a Tenderly RPC, which I use in often along with Infura for my side-projects, so I did not have to create another account. 
+I switched from Infura to a Tenderly RPC, which I often use along Infura for my side-projects, so I did not have to create another account. 
 
 To manage the scope of the historical sync, I added a specific block window in rindexer.yaml to index ~140 days of data --> starting when the factory_v1_1 was created; 
 
